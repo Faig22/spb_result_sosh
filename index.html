@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рейтинг школ Санкт-Петербурга 2024</title>
+<!--<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Geologica:wght@300;400;500;600;700&display=swap" rel="stylesheet">-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0c0f1a;
+  --bg2: #111624;
+  --bg3: #171d30;
+  --card: #1a2035;
+  --border: rgba(100,130,255,0.12);
+  --gold: #f5c842;
+  --gold2: #e8a820;
+  --blue: #4a7fff;
+  --blue2: #2d5bcc;
+  --teal: #32d9c0;
+  --red: #ff5c5c;
+  --green: #3ddc84;
+  --text: #e8ecf8;
+  --text2: #8a96c0;
+  --text3: #5a6490;
+  --g1: #3ddc84;
+  --g2: #f5c842;
+  --g3: #ff6b6b;
+  --font-display: 'Times New Roman', Times, serif;
+  --font-body: 'Times New Roman', Times, serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #0c0f1a 0%, #111a35 50%, #0c1428 100%);
+  padding: 60px 40px 50px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(74,127,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(50,217,192,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(74,127,255,0.2), rgba(50,217,192,0.2));
+  border: 1px solid rgba(74,127,255,0.4);
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 30%, #a0b8ff 70%, #32d9c0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+.hero-sub {
+  color: var(--text2);
+  font-size: 16px;
+  font-weight: 300;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+.stats-row { display: flex; gap: 32px; flex-wrap: wrap; }
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  transition: border-color .2s;
+}
+.stat-pill:hover { border-color: rgba(74,127,255,0.3); }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label { font-size: 12px; color: var(--text2); font-weight: 400; line-height: 1.3; }
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,15,26,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+}
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 16px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* MAIN */
+main { max-width: 1400px; margin: 0 auto; padding: 40px; }
+
+/* SECTION */
+.section { margin-bottom: 60px; }
+.section-head { margin-bottom: 28px; }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.section-desc { margin-top: 8px; color: var(--text2); font-size: 14px; font-weight: 300; }
+
+/* SEARCH */
+.search-wrap { position: relative; margin-bottom: 24px; }
+.search-icon {
+  position: absolute;
+  left: 18px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 18px;
+}
+#schoolSearch {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 16px 20px 16px 50px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#schoolSearch::placeholder { color: var(--text3); }
+#schoolSearch:focus {
+  border-color: rgba(74,127,255,0.5);
+  box-shadow: 0 0 0 3px rgba(74,127,255,0.1);
+}
+.search-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text2);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 9px 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.filter-select:focus { border-color: rgba(74,127,255,0.4); }
+
+/* SCHOOL CARDS */
+#searchResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  min-height: 60px;
+}
+.school-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+  animation: fadeUp .3s ease both;
+}
+.school-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(74,127,255,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 12px; }
+.sc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.sc-district { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.group-badge {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800;
+  font-family: var(--font-display);
+}
+.g1 { background: rgba(61,220,132,0.15); color: var(--g1); border: 1px solid rgba(61,220,132,0.3); }
+.g2 { background: rgba(245,200,66,0.15);  color: var(--g2); border: 1px solid rgba(245,200,66,0.3); }
+.g3 { background: rgba(255,107,107,0.15); color: var(--g3); border: 1px solid rgba(255,107,107,0.3); }
+.sc-score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sc-total { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--gold); }
+.sc-total-label { font-size: 11px; color: var(--text3); }
+.sc-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.sc-bar-item { display: flex; flex-direction: column; gap: 3px; }
+.sc-bar-label { font-size: 10px; color: var(--text3); }
+.sc-bar-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.sc-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue), var(--teal)); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid rgba(74,127,255,0.2);
+  border-radius: 24px;
+  padding: 36px;
+  max-width: 680px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  position: relative;
+  transform: scale(.95);
+  transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.06);
+  border: none; color: var(--text2);
+  width: 32px; height: 32px;
+  border-radius: 8px; cursor: pointer;
+  font-size: 18px; display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.12); }
+.modal-school-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 6px; padding-right: 40px; }
+.modal-district { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+.modal-summary { display: flex; gap: 16px; margin-bottom: 28px; }
+.modal-stat-box {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px; text-align: center;
+}
+.modal-stat-val { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
+.modal-stat-lbl { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.modal-indicators { display: flex; flex-direction: column; gap: 10px; }
+.ind-row { display: flex; align-items: center; gap: 12px; }
+.ind-label { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.3; }
+.ind-track { width: 120px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; flex-shrink: 0; overflow: hidden; }
+.ind-fill { height: 100%; border-radius: 3px; }
+.ind-ball { font-size: 13px; font-weight: 600; width: 30px; text-align: right; flex-shrink: 0; }
+.ball-0  { color: var(--text3); } .ball-1  { color: var(--g3); } .ball-2  { color: var(--g2); } .ball-3  { color: var(--g1); } .ball-ni { color: var(--text3); }
+.fill-0  { background: var(--text3); width: 0%;   }
+.fill-1  { background: var(--g3);    width: 33%;  }
+.fill-2  { background: var(--g2);    width: 67%;  }
+.fill-3  { background: var(--g1);    width: 100%; }
+.fill-ni { background: var(--text3); width: 10%;  }
+
+/* CHARTS */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; }
+.chart-card.full { grid-column: 1 / -1; }
+.chart-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.chart-card-sub { font-size: 12px; color: var(--text3); margin-bottom: 20px; }
+.chart-wrap { position: relative; height: 300px; }
+.chart-wrap.tall { height: 420px; }
+
+/* DISTRICT TABLE */
+.dist-table { width: 100%; border-collapse: collapse; }
+.dist-table th {
+  font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text3); padding: 10px 16px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.dist-table td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.dist-table tr:hover td { background: rgba(255,255,255,0.02); }
+.dist-table tr:last-child td { border-bottom: none; }
+.rank-num { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text3); }
+.rank-num.top1 { color: #ffd700; } .rank-num.top2 { color: #c0c0c0; } .rank-num.top3 { color: #cd7f32; }
+.dist-name-cell { font-weight: 500; }
+.score-cell { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--gold); }
+.mini-bar-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; width: 120px; }
+.mini-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue2), var(--blue)); }
+
+/* TOP SCHOOLS */
+.top-schools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.top-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 20px; display: flex; gap: 16px; align-items: flex-start;
+  transition: transform .2s, border-color .2s; cursor: pointer;
+}
+.top-card:hover { transform: translateY(-2px); border-color: rgba(245,200,66,0.3); }
+.top-rank { font-family: var(--font-display); font-size: 32px; font-weight: 900; line-height: 1; min-width: 40px; }
+.top-rank.r1 { color: #ffd700; } .top-rank.r2 { color: #c0c0c0; } .top-rank.r3 { color: #cd7f32; }
+.top-rank.rn { color: var(--text3); font-size: 22px; padding-top: 6px; }
+.top-info { flex: 1; }
+.top-name { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+.top-dist { font-size: 11px; color: var(--text3); margin-bottom: 10px; }
+.top-score {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.25);
+  border-radius: 8px; padding: 4px 10px;
+}
+.top-score-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gold); }
+.top-score-max { font-size: 11px; color: var(--text3); }
+
+/* TABS */
+.tab-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.tab-pill {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  color: var(--text2); font-family: var(--font-body); font-size: 12px;
+  padding: 7px 14px; cursor: pointer; transition: all .2s;
+}
+.tab-pill.active { background: rgba(74,127,255,0.15); border-color: rgba(74,127,255,0.5); color: #7aadff; }
+
+/* LEGEND */
+.legend-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* METHODOLOGY */
+.method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.method-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.method-icon { font-size: 28px; margin-bottom: 12px; }
+.method-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.method-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+.no-results { color: var(--text3); font-size: 14px; padding: 40px; text-align: center; grid-column: 1 / -1; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+@media (max-width: 768px) {
+  .hero, main { padding: 28px 20px; }
+  nav { padding: 0 20px; }
+  .modal { padding: 24px; }
+  .modal-summary { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Санкт-Петербург · 2024</div>
+    <h1>Результативность школ<br>Санкт-Петербурга</h1>
+    <p class="hero-sub">Анализ результативности образовательной деятельности СОШ по 10 показателям.</p>
+    <div class="stats-row">
+      <div class="stat-pill"><div><div class="stat-num">496</div><div class="stat-label">школ<br>охвачено</div></div></div>
+      <div class="stat-pill"><div><div class="stat-num">18</div><div class="stat-label">районов<br>города</div></div></div>
+      <div class="stat-pill"><div><div class="stat-num">10</div><div class="stat-label">показателей<br>оценки</div></div></div>
+<!--      <div class="stat-pill"><div><div class="stat-num" style="color:var(&#45;&#45;g1)">111</div><div class="stat-label">школ высшей<br>группы</div></div></div>-->
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollToSection('methodology')">Методика анализа</button>
+    <button class="nav-btn " onclick="scrollToSection('search')">Поиск школы</button>
+    <button class="nav-btn" onclick="scrollToSection('districts')">Рейтинг районов</button>
+<!--    <button class="nav-btn" onclick="scrollToSection('charts')">Аналитика</button>-->
+    <button class="nav-btn" onclick="scrollToSection('top')">Топ школ</button>
+
+  </div>
+</nav>
+
+<main>
+
+    <!-- METHODOLOGY -->
+  <section class="section" id="methodology">
+    <div class="section-head">
+      <div class="section-label">Методика анализа</div>
+      <div class="section-title">Как считался рейтинг</div>
+      <div class="section-desc">Анализ проводился по 10 показателям, отражающим результаты образовательной деятельности. Показатели анализировались в диапазоне от 0 до 3 баллов. Шкала баллов сформирована на основе средних данных по школам Санкт-Петербурга за анализируемый период.</div>
+    </div>
+    <div class="method-grid">
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">Успеваемость на «4» и «5»</div><div class="method-text">Удельный вес учащихся, успевающих на «4» и «5» по результатам промежуточной аттестации, от общей численности обучающихся.</div></div>
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">ГИА 9 класс</div><div class="method-text">Средний балл ГИА выпускников 9-го класса по русскому языку и математике.</div></div>
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">ЕГЭ 11 класс</div><div class="method-text">Средний балл ЕГЭ выпускников 11-го класса по русскому языку и математике.</div></div>
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">Аттестаты с отличием</div><div class="method-text">Удельный вес выпускников 9-го и 11-го классов, получивших аттестаты с отличием, от общей численности выпускников 9-го и 11-го классов.</div></div>
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">Олимпиады</div><div class="method-text">Удельный вес учащихся – победителей и призёров олимпиад регионального, федерального и международного уровней от общей численности обучающихся.</div></div>
+      <div class="method-card"><div class="method-icon"></div><div class="method-title">Группы рейтинга</div><div class="method-text">Группа 1: 23–30 баллов.<br> Группа 2: 15–22 балла.<br> Группа 3: 0–14 баллов.</div></div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="section" id="search">
+    <div class="section-head">
+      <div class="section-label">Поиск школы</div>
+      <div class="section-title">Найдите свою школу</div>
+      <div class="section-desc">Введите номер или название, выберите район и группу рейтинга</div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="schoolSearch" placeholder="Например: ГБОУ СОШ № 63, Гимназия № 70, ГБОУ № 11...">
+    </div>
+    <div class="search-filters">
+      <select class="filter-select" id="districtFilter"><option value="">Все районы</option></select>
+      <select class="filter-select" id="groupFilter">
+        <option value="">Все группы</option>
+        <option value="1">Группа 1 — Высокий уровень (23–30 баллов)</option>
+        <option value="2">Группа 2 — Средний уровень (15–22 балла)</option>
+        <option value="3">Группа 3 — Базовый уровень (0–14 баллов)</option>
+      </select>
+    </div>
+    <div id="searchResults"></div>
+  </section>
+
+   <!-- DISTRICTS -->
+<!--  <section class="section" id="districts">-->
+<!--    <div class="section-head">-->
+<!--      <div class="section-label">Районы</div>-->
+<!--      <div class="section-title">Рейтинг районов</div>-->
+<!--      <div class="section-desc">Среднее значение по всем школам района. Нажмите на показатель, чтобы изменить метрику.</div>-->
+<!--    </div>-->
+<!--    <div class="tab-pills" id="distTabs">-->
+<!--      <button class="tab-pill active" data-key="total">Итоговый балл</button>-->
+<!--      <button class="tab-pill" data-key="score_4_5">Успевающие на 4 и 5</button>-->
+<!--      <button class="tab-pill" data-key="gia9_rus">ГИА 9 — Русский</button>-->
+<!--      <button class="tab-pill" data-key="gia9_math">ГИА 9 — Математика</button>-->
+<!--      <button class="tab-pill" data-key="ege11_rus">ЕГЭ 11 — Русский</button>-->
+<!--      <button class="tab-pill" data-key="ege11_math">ЕГЭ 11 — Математика</button>-->
+<!--      <button class="tab-pill" data-key="olymp_reg">Олимпиады (регион)</button>-->
+<!--      <button class="tab-pill" data-key="olymp_fed">Олимпиады (федерал)</button>-->
+<!--    </div>-->
+<!--    <div class="chart-card">-->
+<!--      <div style="overflow-x:auto">-->
+<!--        <table class="dist-table" id="distTable"></table>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
+
+  <!-- CHARTS -->
+<!--  <section class="section" id="charts">-->
+<!--    <div class="section-head">-->
+
+<!--      <div class="section-title">Визуализация данных</div>-->
+<!--      <div class="section-desc">Распределение школ по группам и показатели по районам</div>-->
+<!--    </div>-->
+<!--    <div class="charts-grid">-->
+<!--      <div class="chart-card">-->
+<!--        <div class="chart-card-title">Распределение по группам в районах</div>-->
+<!--        <div class="chart-card-sub">Доля школ каждой группы в каждом районе (%)</div>-->
+<!--        <div class="chart-wrap tall"><canvas id="groupsChart"></canvas></div>-->
+<!--      </div>-->
+<!--      <div class="chart-card">-->
+<!--        <div class="chart-card-title">Профиль показателей по району</div>-->
+<!--        <div class="chart-card-sub">Средние баллы по 10 показателям</div>-->
+<!--        <select class="filter-select" id="radarDistSelect" style="margin-bottom:14px"></select>-->
+<!--        <div class="chart-wrap"><canvas id="radarChart"></canvas></div>-->
+<!--      </div>-->
+<!--      <div class="chart-card full">-->
+<!--        <div class="chart-card-title">Средний итоговый балл по районам</div>-->
+<!--        <div class="chart-card-sub">Районы отсортированы по убыванию</div>-->
+<!--        <div class="chart-wrap"><canvas id="distBarChart"></canvas></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--  &lt;!&ndash; TOP &ndash;&gt;-->
+<!--  <section class="section" id="top">-->
+<!--    <div class="section-head">-->
+<!--      <div class="section-label">Лидеры</div>-->
+<!--      <div class="section-title">Топ-20 школ города</div>-->
+<!--      <div class="section-desc">Школы с наибольшим итоговым баллом (максимум 30 из 30)</div>-->
+<!--    </div>-->
+<!--    <div class="legend-row">-->
+<!--      <div class="legend-item"><div class="legend-dot" style="background:var(&#45;&#45;g1)"></div>Группа 1 — Высокий уровень</div>-->
+<!--      <div class="legend-item"><div class="legend-dot" style="background:var(&#45;&#45;g2)"></div>Группа 2 — Средний уровень</div>-->
+<!--      <div class="legend-item"><div class="legend-dot" style="background:var(&#45;&#45;g3)"></div>Группа 3 — Базовый уровень</div>-->
+<!--    </div>-->
+<!--    <div class="top-schools-grid" id="topSchools"></div>-->
+<!--  </section>-->
+
+
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
