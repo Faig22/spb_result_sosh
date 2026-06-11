@@ -338,10 +338,10 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
 .dist-table { width: 100%; border-collapse: collapse; }
 .dist-table th {
   font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--text3); padding: 10px 16px; text-align: left;
+  color: var(--text3); padding: 10px 16px; text-align: center;
   border-bottom: 1px solid var(--border);
 }
-.dist-table td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.dist-table td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04);text-align: center; }
 .dist-table tr:hover td { background: rgba(255,255,255,0.02); }
 .dist-table tr:last-child td { border-bottom: none; }
 .rank-num { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text3); }
@@ -414,7 +414,7 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-badge">Санкт-Петербург · 2024</div>
-    <h1>Результативность школ<br>Санкт-Петербурга</h1>
+    <h1>Результативность школ<br>Санкт-Петербурга по показателям самообследования</h1>
     <p class="hero-sub">Анализ результативности образовательной деятельности СОШ по 10 показателям.</p>
     <div class="stats-row">
       <div class="stat-pill"><div><div class="stat-num">496</div><div class="stat-label">школ<br>охвачено</div></div></div>
@@ -461,7 +461,7 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
     <div class="section-head">
       <div class="section-label">Поиск школы</div>
       <div class="section-title">Найдите свою школу</div>
-      <div class="section-desc">Введите номер или название, выберите район и группу рейтинга</div>
+      <div class="section-desc">Введите номер или название, выберите район и группу рейтинга.</div>
     </div>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
@@ -479,29 +479,34 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
     <div id="searchResults"></div>
   </section>
 
-   <!-- DISTRICTS -->
-<!--  <section class="section" id="districts">-->
-<!--    <div class="section-head">-->
-<!--      <div class="section-label">Районы</div>-->
-<!--      <div class="section-title">Рейтинг районов</div>-->
-<!--      <div class="section-desc">Среднее значение по всем школам района. Нажмите на показатель, чтобы изменить метрику.</div>-->
-<!--    </div>-->
-<!--    <div class="tab-pills" id="distTabs">-->
-<!--      <button class="tab-pill active" data-key="total">Итоговый балл</button>-->
-<!--      <button class="tab-pill" data-key="score_4_5">Успевающие на 4 и 5</button>-->
-<!--      <button class="tab-pill" data-key="gia9_rus">ГИА 9 — Русский</button>-->
-<!--      <button class="tab-pill" data-key="gia9_math">ГИА 9 — Математика</button>-->
-<!--      <button class="tab-pill" data-key="ege11_rus">ЕГЭ 11 — Русский</button>-->
-<!--      <button class="tab-pill" data-key="ege11_math">ЕГЭ 11 — Математика</button>-->
-<!--      <button class="tab-pill" data-key="olymp_reg">Олимпиады (регион)</button>-->
-<!--      <button class="tab-pill" data-key="olymp_fed">Олимпиады (федерал)</button>-->
-<!--    </div>-->
-<!--    <div class="chart-card">-->
-<!--      <div style="overflow-x:auto">-->
-<!--        <table class="dist-table" id="distTable"></table>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
+<!--    DISTRICTS -->
+  <section class="section" id="districts">
+    <div class="section-head">
+      <div class="section-label">Рейтинг районов</div>
+      <div class="section-title">Распределение районов</div>
+      <div class="section-desc">Среднее значение баллов по всем школам каждого района.</div>
+    </div>
+    <div class="tab-pills" id="distTabs">
+      <button class="tab-pill active" data-key="total">Итоговый средний балл или среднее по всем показателям</button>
+      <button class="tab-pill" data-key="score_4_5">Успеваемость на 4 и 5</button>
+      <button class="tab-pill" data-key="gia9_rus">ГИА 9 — Русский</button>
+      <button class="tab-pill" data-key="gia9_math">ГИА 9 — Математика</button>
+      <button class="tab-pill" data-key="ege11_rus">ЕГЭ 11 — Русский</button>
+      <button class="tab-pill" data-key="ege11_math">ЕГЭ 11 — Математика</button>
+      <button class="tab-pill" data-key="att9_honor">Аттестаты с отличием (9 класс)</button>
+      <button class="tab-pill" data-key="att11_honor">Аттестаты с отличием (11 класс)</button>
+
+      <button class="tab-pill" data-key="olymp_reg">Олимпиады (регион.)</button>
+      <button class="tab-pill" data-key="olymp_fed">Олимпиады (федерал.)</button>
+      <button class="tab-pill" data-key="olymp_intl">Олимпиады (межд.)</button>
+
+    </div>
+    <div class="chart-card">
+      <div style="overflow-x:auto">
+        <table class="dist-table" id="distTable"></table>
+      </div>
+    </div>
+  </section>
 
   <!-- CHARTS -->
 <!--  <section class="section" id="charts">-->

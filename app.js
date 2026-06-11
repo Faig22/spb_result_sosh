@@ -157,8 +157,8 @@ function renderDistTable(key) {
   const table  = document.getElementById('distTable');
 
   table.innerHTML = `<thead><tr>
-    <th>Место</th><th>Район</th><th>Балл</th><th>Прогресс</th>
-    <th>Школ 1 гр.</th><th>Школ 2 гр.</th><th>Школ 3 гр.</th>
+    <th>Место</th><th>Район</th><th>Балл</th>
+    <th>Кол-во школ 1 группы</th><th>Кол-во школ 2 группы</th><th>Кол-во школ 3 группы</th>
   </tr></thead>`;
 
   const tbody = document.createElement('tbody');
@@ -171,7 +171,7 @@ function renderDistTable(key) {
       <td><span class="rank-num ${rankCls}">${i + 1}</span></td>
       <td class="dist-name-cell">${d.name}</td>
       <td class="score-cell">${d.val.toFixed(2)}</td>
-      <td><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%"></div></div></td>
+
       <td><span style="color:var(--g1);font-weight:600">${grp.g1_count || 0}</span></td>
       <td><span style="color:var(--g2);font-weight:600">${grp.g2_count || 0}</span></td>
       <td><span style="color:var(--g3);font-weight:600">${grp.g3_count || 0}</span></td>
