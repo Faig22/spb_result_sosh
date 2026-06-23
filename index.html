@@ -471,9 +471,9 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
       <select class="filter-select" id="districtFilter"><option value="">Все районы</option></select>
       <select class="filter-select" id="groupFilter">
         <option value="">Все группы</option>
-        <option value="1">Группа 1 — Высокий уровень (23–30 баллов)</option>
-        <option value="2">Группа 2 — Средний уровень (15–22 балла)</option>
-        <option value="3">Группа 3 — Базовый уровень (0–14 баллов)</option>
+        <option value="1">Группа 1. 23–30 баллов</option>
+        <option value="2">Группа 2. 15–22 балла</option>
+        <option value="3">Группа 3. 0–14 баллов</option>
       </select>
     </div>
     <div id="searchResults"></div>
@@ -508,32 +508,32 @@ main { max-width: 1400px; margin: 0 auto; padding: 40px; }
     </div>
   </section>
 
-  <!-- CHARTS -->
-<!--  <section class="section" id="charts">-->
-<!--    <div class="section-head">-->
+<!--   CHARTS -->
+  <section class="section" id="charts">
+    <div class="section-head">
 
-<!--      <div class="section-title">Визуализация данных</div>-->
-<!--      <div class="section-desc">Распределение школ по группам и показатели по районам</div>-->
-<!--    </div>-->
-<!--    <div class="charts-grid">-->
-<!--      <div class="chart-card">-->
-<!--        <div class="chart-card-title">Распределение по группам в районах</div>-->
+      <div class="section-title">Визуализация данных</div>
+      <div class="section-desc">Распределение групп по районам и средние значения каждого из 10 показателей по этим районам.</div>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-title" style="text-align: center;">Доля школ каждой группы в каждом районе (%)</div>
 <!--        <div class="chart-card-sub">Доля школ каждой группы в каждом районе (%)</div>-->
-<!--        <div class="chart-wrap tall"><canvas id="groupsChart"></canvas></div>-->
-<!--      </div>-->
-<!--      <div class="chart-card">-->
-<!--        <div class="chart-card-title">Профиль показателей по району</div>-->
+        <div class="chart-wrap tall"><canvas id="groupsChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title" style="text-align: center">Среднее значение баллов 10 показателей по району</div>
 <!--        <div class="chart-card-sub">Средние баллы по 10 показателям</div>-->
-<!--        <select class="filter-select" id="radarDistSelect" style="margin-bottom:14px"></select>-->
-<!--        <div class="chart-wrap"><canvas id="radarChart"></canvas></div>-->
-<!--      </div>-->
-<!--      <div class="chart-card full">-->
-<!--        <div class="chart-card-title">Средний итоговый балл по районам</div>-->
-<!--        <div class="chart-card-sub">Районы отсортированы по убыванию</div>-->
-<!--        <div class="chart-wrap"><canvas id="distBarChart"></canvas></div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
+        <select class="filter-select" id="radarDistSelect" style="margin-bottom:14px"></select>
+        <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+      </div>
+      <div class="chart-card full">
+        <div class="chart-card-title">Среднее значение баллов по всем школам каждого района.</div>
+        <div class="chart-card-sub">Районы отсортированы по убыванию</div>
+        <div class="chart-wrap"><canvas id="distBarChart"></canvas></div>
+      </div>
+    </div>
+  </section>
 
 <!--  &lt;!&ndash; TOP &ndash;&gt;-->
 <!--  <section class="section" id="top">-->

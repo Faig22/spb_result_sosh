@@ -201,11 +201,11 @@ const distsSorted = [...DISTRICTS].sort((a, b) => DIST_AVG[b].total - DIST_AVG[a
 new Chart(document.getElementById('groupsChart'), {
   type: 'bar',
   data: {
-    labels: distsSorted.map(d => d.length > 12 ? d.substring(0, 12) + '…' : d),
+    labels: distsSorted.map(d => d.length > 25 ? d.substring(0, 25) + '…' : d),
     datasets: [
-      { label: 'Группа 1 (высокий)', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g1_share || 0) * 100)), backgroundColor: 'rgba(61,220,132,0.75)' },
-      { label: 'Группа 2 (средний)', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g2_share || 0) * 100)), backgroundColor: 'rgba(245,200,66,0.75)' },
-      { label: 'Группа 3 (базовый)', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g3_share || 0) * 100)), backgroundColor: 'rgba(255,107,107,0.75)' },
+      { label: 'Группа 1', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g1_share || 0) * 100)), backgroundColor: 'rgba(61,220,132,0.75)' },
+      { label: 'Группа 2', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g2_share || 0) * 100)), backgroundColor: 'rgba(245,200,66,0.75)' },
+      { label: 'Группа 3', data: distsSorted.map(d => Math.round((DIST_GRP[d]?.g3_share || 0) * 100)), backgroundColor: 'rgba(255,107,107,0.75)' },
     ]
   },
   options: {
